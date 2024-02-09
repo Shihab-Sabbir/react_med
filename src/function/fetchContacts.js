@@ -16,6 +16,10 @@ export const fetchContacts = async (contacts, setContacts, country = '', search 
         const data = await response.json();
         const result = data.results;
         const combinedData = [...contacts, ...result];
+        if (search) {
+            setContacts(result);
+            return;
+        }
         const uniqueData = Array.from(new Set(combinedData.map(contact => contact.id))).map(id => {
             return combinedData.find(contact => contact.id === id);
         });
