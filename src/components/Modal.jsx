@@ -11,6 +11,7 @@ const Modal = ({ label }) => {
     const [isLoading, setIsLoading] = useState(false)
     const [searchNow, setSearchNow] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
+    const [scrollPosition, setScrollPosition] = useState(0);
     const [selected, setSelected] = useState({
         isSelected: false,
         id: "",
@@ -28,7 +29,9 @@ const Modal = ({ label }) => {
         else {
             country = "";
         }
-        fetchContacts(setContacts, country, searchQuery, currentPage, setIsLoading);
+
+        fetchContacts(contacts, setContacts, country, searchQuery, currentPage, setIsLoading);
+
     }, [label, searchQuery, searchNow, currentPage])
 
     const handleSearchChange = (e) => {
@@ -58,29 +61,32 @@ const Modal = ({ label }) => {
 
 
     const handleScroll = (e) => {
-        const bottom = e.target.scrollHeight - Math.ceil(e.target.scrollTop) === e.target.clientHeight;
+        const { scrollTop, scrollHeight, clientHeight } = e.target;
+        const bottom = scrollHeight - Math.ceil(scrollTop) === clientHeight;
         if (bottom && !isLoading) {
+            setScrollPosition(scrollTop - 100);
             setCurrentPage(prevPage => prevPage + 1);
         }
     };
 
-
     useEffect(() => {
         const scrollableElement = document.getElementById('modalContent');
         scrollableElement.addEventListener('scroll', handleScroll);
+        // scrollableElement.scrollTop = 0;
 
         return () => {
             scrollableElement.removeEventListener('scroll', handleScroll);
         };
-    }, [currentPage]);
+    }, [currentPage, scrollPosition]);
 
+    console.log({ currentPage, contacts })
 
     return (
         <div className={`modal ${isOpen ? 'show' : ''}`} id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden={!isOpen}>
-            {!selected.isSelected ? <div className="modal-dialog" id='modalContent' role="document"
-                style={{ maxHeight: '80vh', overflowY: 'auto' }} onScroll={handleScroll}
+            {!selected.isSelected ? <div className="modal-dialog" role="document"
+                onScroll={handleScroll}
             >
-                <div className="modal-content">
+                <div className="modal-content" id='modalContent' style={{ maxHeight: '90vh', overflowY: 'auto' }}>
                     <div className="modal-header">
                         <h5 className="modal-title" id="exampleModalLabel">{label}</h5>
                         <button type="button" className="close" onClick={toggleModal} aria-label="Close">
@@ -115,7 +121,6 @@ const Modal = ({ label }) => {
                             <div key={contact.id} className="border mb-2 p-2"
                                 style={{ cursor: 'pointer' }}
                                 onClick={() => {
-                                    console.log('clicked')
                                     setSelected({
                                         isSelected: true,
                                         id: contact?.id,

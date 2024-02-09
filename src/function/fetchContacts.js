@@ -1,5 +1,6 @@
-export const fetchContacts = async (setContacts, country = '', search = '', currentPage, setIsLoading) => {
-    setIsLoading(true)
+export const fetchContacts = async (contacts, setContacts, country = '', search = '', currentPage = 1, setIsLoading) => {
+    setIsLoading(true);
+
     let apiUrl = `https://contact.mediusware.com/api/contacts/?page=${currentPage}`;
 
     if (country && search) {
@@ -13,13 +14,17 @@ export const fetchContacts = async (setContacts, country = '', search = '', curr
     try {
         const response = await fetch(apiUrl);
         const data = await response.json();
-        setContacts(data.results)
-        return
+        const result = data.results;
+        const combinedData = [...contacts, ...result];
+        const uniqueData = Array.from(new Set(combinedData.map(contact => contact.id))).map(id => {
+            return combinedData.find(contact => contact.id === id);
+        });
 
+        setContacts(uniqueData);
     } catch (error) {
         console.error('Error fetching contacts:', error);
-    }
-    finally {
-        setIsLoading(false)
+        return [];
+    } finally {
+        setIsLoading(false);
     }
 };

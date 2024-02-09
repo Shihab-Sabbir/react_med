@@ -5,8 +5,6 @@ import { useNavigate } from 'react-router-dom';
 const Problem2 = () => {
     const navigate = useNavigate();
 
-
-
     return (
         <div className="container">
             <div className="row justify-content-center mt-5">
