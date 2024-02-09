@@ -86,7 +86,7 @@ const Modal = ({ label }) => {
             {!selected.isSelected ? <div className="modal-dialog" role="document"
                 onScroll={handleScroll}
             >
-                <div className="modal-content" id='modalContent' style={{ maxHeight: '90vh', overflowY: 'auto' }}>
+                <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title" id="exampleModalLabel">{label}</h5>
                         <button type="button" className="close" onClick={toggleModal} aria-label="Close">
@@ -117,23 +117,27 @@ const Modal = ({ label }) => {
                                 Search
                             </button>
                         </div>
-                        {filteredContacts?.map(contact => (
-                            <div key={contact.id} className="border mb-2 p-2"
-                                style={{ cursor: 'pointer' }}
-                                onClick={() => {
-                                    setSelected({
-                                        isSelected: true,
-                                        id: contact?.id,
-                                        phone: contact?.phone,
-                                        country: contact?.country?.name
-                                    })
-                                }}
-                            >
-                                <p><strong>ID:</strong> {contact?.id}</p>
-                                <p><strong>Phone:</strong> {contact?.phone}</p>
-                                <p><strong>Country:</strong> {contact?.country?.name}</p>
-                            </div>
-                        ))}
+                        <div
+                            id='modalContent' style={{ maxHeight: '62vh', overflowY: 'auto' }}
+                        >
+                            {filteredContacts?.map(contact => (
+                                <div key={contact.id} className="border mb-2 p-2"
+                                    style={{ cursor: 'pointer' }}
+                                    onClick={() => {
+                                        setSelected({
+                                            isSelected: true,
+                                            id: contact?.id,
+                                            phone: contact?.phone,
+                                            country: contact?.country?.name
+                                        })
+                                    }}
+                                >
+                                    <p><strong>ID:</strong> {contact?.id}</p>
+                                    <p><strong>Phone:</strong> {contact?.phone}</p>
+                                    <p><strong>Country:</strong> {contact?.country?.name}</p>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                     {
                         isLoading && <p>Loading...</p>
@@ -182,16 +186,6 @@ const Modal = ({ label }) => {
                         </div>
                         <div className="modal-footer">
                             <div className='d-flex gap-2'>
-                                <button type="button"
-                                    className="btn btn-primary"
-                                    onClick={() => navigate('/problem-2/all-contacts')}                            >
-                                    All Contacts
-                                </button>
-                                <button type="button"
-                                    className="btn btn-secondary"
-                                    onClick={() => navigate('/problem-2/us-contacts')}                            >
-                                    US Contacts
-                                </button>
                                 <button type="button" className="btn btn-warning" onClick={toggleModal}>Close</button>
                             </div>
                         </div>
