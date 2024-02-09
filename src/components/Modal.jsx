@@ -155,16 +155,18 @@ const Modal = ({ label }) => {
                         </div>
                         <div className='d-flex gap-2'>
                             <button type="button"
-                                className="btn btn-primary"
+                                className="btn btn-white border"
                                 onClick={() => navigate('/problem-2/all-contacts')}                            >
-                                All Contacts
+                                A
                             </button>
                             <button type="button"
-                                className="btn btn-secondary"
-                                onClick={() => navigate('/problem-2/us-contacts')}                            >
-                                US Contacts
+                                className="btn"
+                                onClick={() => navigate('/problem-2/us-contacts')}
+                                style={{ background: '#ff7f50' }}
+                            >
+                                B
                             </button>
-                            <button type="button" className="btn btn-warning" onClick={toggleModal}>Close</button>
+                            <button type="button" className="btn btn-white border" onClick={toggleModal}>C</button>
                         </div>
                     </div>
                 </div>
@@ -186,7 +188,7 @@ const Modal = ({ label }) => {
                         </div>
                         <div className="modal-footer">
                             <div className='d-flex gap-2'>
-                                <button type="button" className="btn btn-warning" onClick={toggleModal}>Close</button>
+                                <button type="button" className="btn btn-white border" onClick={toggleModal}>C</button>
                             </div>
                         </div>
                     </div>
