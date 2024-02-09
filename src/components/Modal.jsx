@@ -58,11 +58,12 @@ const Modal = ({ label }) => {
 
 
     const handleScroll = (e) => {
-        const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+        const bottom = e.target.scrollHeight - Math.ceil(e.target.scrollTop) === e.target.clientHeight;
         if (bottom && !isLoading) {
             setCurrentPage(prevPage => prevPage + 1);
         }
     };
+
 
     useEffect(() => {
         const scrollableElement = document.getElementById('modalContent');
